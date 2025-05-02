@@ -11,7 +11,7 @@ exports.createEvent = async (req, res) => {
 
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find({ plannerId: req.user.id });
+    const events = await Event.find({ userId: req.query.id }).populate('guestList');
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -20,7 +20,7 @@ exports.getEvents = async (req, res) => {
 
 exports.getEventById = async (req, res) => {
   try {
-    const event = await Event.findOne({ _id: req.params.id, plannerId: req.user.id });
+    const event = await Event.findOne({ _id: req.params.id, userId: req.user.id });
     if (!event) return res.status(404).json({ message: 'Event not found' });
     res.json(event);
   } catch (err) {
