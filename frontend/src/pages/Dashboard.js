@@ -19,7 +19,7 @@ const Dashboard = () => {
           },
           params: { username }
         });
-        setClientId(response.data.id);
+        setClientId(response.data._id);
       } catch (error) {
         console.error('Error fetching client ID:', error);
       }

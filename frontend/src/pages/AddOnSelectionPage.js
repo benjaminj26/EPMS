@@ -24,7 +24,10 @@ const AddOnSelectionPage = () => {
         
         try {
             const response = await axios.get('http://localhost:9598/vendor/getVendorByChoice', {
-                params: {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+              },
+              params: {
                     location: location,
                     date: formattedDate
                 }

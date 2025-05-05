@@ -93,4 +93,28 @@ router.delete('/', async (req, res) => {
   }
 });
 
+router.get('/getVendorByChoice', async (req, res) => {
+  try {
+    const response = await axios.get(`${VENDOR_SERVICE_URL}/api/vendors/getVendorByChoice`, {
+      headers: {
+        Authorization: req.headers.authorization
+      },
+      params: {
+        location: req.query.location,
+        date: req.query.date
+      }
+    });
+
+    if (response.status === 200) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(response.status).json({ error: response.statusText });
+    }
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

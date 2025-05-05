@@ -49,6 +49,7 @@ console.log(eventDetails);
 
         if (response.status === 200) {
           const venues = response.data;
+          console.log('Venues:\n', venues);
 
           // Shuffle venues and select 4 random venues
           const getRandomVenues = (venues, num) => {

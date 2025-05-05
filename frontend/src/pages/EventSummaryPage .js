@@ -16,9 +16,12 @@ const EventSummaryPage = () => {
     const fetchClientId = async () => {
       try {
         const response = await axios.get('http://localhost:9598/user/getUser', {
-          params: { username: username },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+          params: { username: localStorage.getItem('username') },
         });
-        const fetchedClientId = response.data.id; // Adjust this line based on the actual response structure
+        const fetchedClientId = response.data._id; // Adjust this line based on the actual response structure
         setClientId(fetchedClientId);
       } catch (error) {
         console.error('Error fetching client ID:', error);
@@ -57,8 +60,9 @@ const EventSummaryPage = () => {
   
       console.log('Submitting event payload:', eventPayload); // Log payload
   
-      const response = await axios.post('http://localhost:9598/api/event', eventPayload, {
+      const response = await axios.post('http://localhost:9598/event', eventPayload, {
         headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           'Content-Type': 'application/json',
         }
       });
@@ -71,11 +75,11 @@ const EventSummaryPage = () => {
         setEventId(createdEventId);
 
         // Generate the invoice
-        await generateInvoice(createdEventId);
+        // await generateInvoice(createdEventId);
         
         // Send order info to all vendors
         // await sendOrderInfo(createdEventId, eventPayload.vendorIds);
-      await sendOrderInfo(createdEventId, eventPayload.vendorIds);
+      // await sendOrderInfo(createdEventId, eventPayload.vendorIds);
         navigate('/dashboard');
       } else {
         console.error('Failed to create event:', response.data);
@@ -88,10 +92,15 @@ const EventSummaryPage = () => {
   const generateInvoice = async (eventId) => {
     try {
       // Construct URL with eventId parameter
-      const url = `http://localhost:9598/employee/invoice/${eventId}`;
+      const url = `http://localhost:9598/employee/invoice`;
       
       // Make the GET request
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        },
+        params: { eventId }
+      });
       
       // Handle the response
       console.log('Invoice data:', response.data);

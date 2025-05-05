@@ -46,7 +46,7 @@ const EventCreationPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Event details to be passed:', eventDetails);
+    // console.log('Event details to be passed:', eventDetails);
     navigate('/venues', { state: { eventDetails } });
   };
 
