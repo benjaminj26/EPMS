@@ -4,7 +4,10 @@ const vendorController = require('../controllers/vendorController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, vendorController.addVendor);
-router.get('/event/:eventId', authMiddleware, vendorController.getVendorsByEvent);
-router.put('/:id/status', vendorController.updateVendorStatus); // No auth: vendors can update status via secure link
+router.delete('/', authMiddleware, vendorController.deleteVendor);
+router.get('/status', authMiddleware, vendorController.getVendorsByStatus);
+router.get('/event', authMiddleware, vendorController.getVendorsByEvent);
+router.put('/status', authMiddleware, vendorController.updateVendorStatus); // No auth: vendors can update status via secure link
+router.put('/approveVendor', authMiddleware, vendorController.approveVendor);
 
 module.exports = router;

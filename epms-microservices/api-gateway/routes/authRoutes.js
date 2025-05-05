@@ -8,7 +8,7 @@ const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL;
 router.post('/register', async (req, res) => {
   try {
     const response = await axios.post(`${AUTH_SERVICE_URL}/api/auth/register`, req.body);
-    res.json(response.data);
+    res.send(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json({ message: error.message });
   }
@@ -16,9 +16,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    console.log(`Sending request to ${AUTH_SERVICE_URL}/api/auth/login`);
+    // console.log(`Sending request to ${AUTH_SERVICE_URL}/api/auth/login`);
     const response = await axios.post(`${AUTH_SERVICE_URL}/api/auth/login`, req.body);
-    res.json(response.data);
+    res.send(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json({ message: error.message });
   }

@@ -7,7 +7,7 @@ require('dotenv').config();
 const GUEST_SERVICE_URL = process.env.GUEST_SERVICE_URL;
 
 // Add guest
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const response = await axios.post(`${GUEST_SERVICE_URL}/api/guests`, req.body, {
       headers: { Authorization: req.headers.authorization }
@@ -19,7 +19,7 @@ router.post('/', authMiddleware, async (req, res) => {
 });
 
 // Get guests by eventId
-router.get('/event/:eventId', authMiddleware, async (req, res) => {
+router.get('/event/:eventId', async (req, res) => {
   try {
     const response = await axios.get(`${GUEST_SERVICE_URL}/api/guests/event/${req.params.eventId}`, {
       headers: { Authorization: req.headers.authorization }

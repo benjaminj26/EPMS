@@ -47,6 +47,15 @@ eventSchema.virtual('guestList', {
     localField: '_id',
     foreignField: 'eventId'
 });
+
+eventSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    if (ret.date) {
+      ret.date = new Date(ret.date).toISOString().split('T')[0];
+    }
+    return ret;
+  }
+});
   
 
 module.exports = mongoose.model('Event', eventSchema);

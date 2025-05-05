@@ -18,14 +18,16 @@ exports.register = async (req, res) => {
 
     const user = await User.create({ username, name, email, password: hashed, role });
 
-    res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user.username, user.role)
-    });
+    // res.status(201).json({
+    //   _id: user._id,
+    //   username: user.username,
+    //   name: user.name,
+    //   email: user.email,
+    //   role: user.role,
+    //   token: generateToken(user.username, user.role)
+    // });
+
+    res.send(generateToken(user.username, user.role));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -41,14 +43,16 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    res.json({
-      _id: user._id,
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user.username, user.role)
-    });
+    // res.json({
+    //   _id: user._id,
+    //   username: user.username,
+    //   name: user.name,
+    //   email: user.email,
+    //   role: user.role,
+    //   token: generateToken(user.username, user.role)
+    // });
+
+    res.send(generateToken(user.username, user.role));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -56,7 +60,7 @@ exports.login = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   const username = req.query.username;
-  console.log('USERNAME: ', username);
+  // console.log('USERNAME: ', username);
 
   try {
     const user = await User.findOne({ username });

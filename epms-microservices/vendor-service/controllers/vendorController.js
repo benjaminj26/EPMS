@@ -13,7 +13,7 @@ exports.addVendor = async (req, res) => {
 // Get vendors by event
 exports.getVendorsByEvent = async (req, res) => {
   try {
-    const vendors = await Vendor.find({ eventId: req.params.eventId });
+    const vendors = await Vendor.find({ eventId: req.query.eventId });
     res.json(vendors);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -24,12 +24,51 @@ exports.getVendorsByEvent = async (req, res) => {
 exports.updateVendorStatus = async (req, res) => {
   try {
     const vendor = await Vendor.findByIdAndUpdate(
-      req.params.id,
+      req.query.id,
       { status: req.body.status },
       { new: true }
     );
     res.json(vendor);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+exports.getVendorsByStatus = async (req, res) => {
+  try {
+    const status = req.query.status;
+    const vendors = await Vendor.find({ status: status });
+
+    res.status(200).json(vendors);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+};
+
+exports.approveVendor = async (req, res) => {
+  try {
+    const vendorId = req.query.vendorId;
+
+    await Vendor.updateOne(
+      { _id: vendorId },
+      { $set: { status: 'APPROVED' } }
+    );
+
+    res.status(200).json({ message: 'Apporved Successfully' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+};
+
+exports.deleteVendor = async (req, res) => {
+  try {
+    const vendorId = req.query.vendorId;
+    await Vendor.deleteOne({ _id: vendorId });
+
+    res.status(200).json({ message: 'Deleted Successfully' });
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 };

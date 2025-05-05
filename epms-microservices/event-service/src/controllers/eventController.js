@@ -51,3 +51,25 @@ exports.deleteEvent = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getEventsByDate = async (req, res) => {
+  try {
+    const date = req.query.date;
+
+    let newDate = new Date(date);
+    // newDate.setUTCHours(0, 0, 0, 0);
+
+    // console.log('Auth Header: ', req.headers.authorization);
+
+    const events = await Event.find({ date: newDate });
+    // events.forEach(event => {
+    //   console.log(event.date);
+    // })
+
+    if (!events) return res.status(200).json({ message: 'No events found' });
+
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
