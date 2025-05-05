@@ -72,9 +72,9 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.map((event) => (
                 <div
-                  key={event.id}
+                  key={event._id}
                   className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl cursor-pointer transition duration-300"
-                  onClick={() => handleEventClick(event.id)}
+                  onClick={() => handleEventClick(event._id)}
                 >
                   <h3 className="text-xl font-semibold text-gray-800">{event.name}</h3>
                   <p className="text-gray-600 text-sm">{event.type} on {event.date}</p>

@@ -7,13 +7,20 @@ const EVENT_SERVICE_URL = process.env.EVENT_SERVICE_URL;
 
 router.get('/', async (req, res) => {
   try {
-    const response = await axios.get(`${EVENT_SERVICE_URL}/api/events`, {
+    const response = await axios.get(`${EVENT_SERVICE_URL}/api/events/${req.query.eventId}`, {
       headers: {
         Authorization: req.headers.authorization
       }
     });
-    res.json(response.data);
+
+    if (response.status === 200) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(response.status).json({ error: response.statusText });
+    }
   } catch (error) {
+    console.log(error);
+
     res.status(error.response?.status || 500).json({ message: error.message });
   }
 });

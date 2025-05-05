@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const EventDTO = require('../dto/Event.DTO');
 
 exports.createEvent = async (req, res) => {
   try {
@@ -9,7 +10,7 @@ exports.createEvent = async (req, res) => {
   }
 };
 
-exports.getEvents = async (req, res) => {
+exports.getEventsByUserId = async (req, res) => {
   try {
     // const events = await Event.find({ userId: req.query.id }).populate('guestList');
     const events = await Event.find({ userId: req.query.id });
@@ -21,9 +22,44 @@ exports.getEvents = async (req, res) => {
 
 exports.getEventById = async (req, res) => {
   try {
-    const event = await Event.findOne({ _id: req.params.id, userId: req.user.id });
+    const event = await Event.findOne({ _id: req.params.id });
     if (!event) return res.status(404).json({ message: 'Event not found' });
-    res.json(event);
+    console.log(event);
+
+    let eventDTO = new EventDTO({
+        id: event._id,
+        name: event.name,
+        date: event.date,
+        type: event.type ,
+        host: 'Irfan',
+        guestList: [
+          'Irfan',
+          'Ashin',
+          'Sharath'
+        ],
+        paymentStatus: event.paymentStatus,
+        status: event.status,
+        userId: event.userId,
+        vendorIds: event.vendorIds,
+        vendorList: [
+          'Vendor 1',
+          'Vendor 2'
+        ],
+        venueId: event.venueId,
+        venue: 'Local Hall',
+        address: 'Pollachi',
+        budget: 0.0,
+        orderId: 'asibdq87182',
+        vendorMap: {
+          'Key1': 'Val1',
+          'Key2': 'Val2'
+        },
+        rate: 0.0,
+        email: 'someone@example.com',
+        location: 'Pollachi'
+    });
+
+    res.status(200).json(eventDTO);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

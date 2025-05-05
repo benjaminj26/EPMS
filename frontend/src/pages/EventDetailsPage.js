@@ -18,10 +18,11 @@ const EventDetailsPage = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:9598/api/event/${eventId}`, {
+        const response = await axios.get(`http://localhost:9598/event`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`
-          }
+          },
+          params: { eventId }
         });
         console.log(response);
         setEvent(response.data);
@@ -49,7 +50,7 @@ const EventDetailsPage = () => {
   
   const handleMakePayment = () => {
     if (event && event.id && event.budget) {
-      console.log('Event page Event ID:', event.id);
+      console.log('Event page Event ID:', event._id);
       console.log('Event page Event Budget:', event.budget);
       navigate('/payment', { 
         state: { 
