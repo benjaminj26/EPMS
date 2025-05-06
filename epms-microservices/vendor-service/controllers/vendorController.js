@@ -2,7 +2,6 @@ const Vendor = require('../models/Vendor');
 
 // Add vendor to event
 exports.addVendor = async (req, res) => {
-  // console.log('Request Body:\n', req.body);
   try {
     const vendor = await Vendor.create(req.body);
     res.status(201).json(vendor);

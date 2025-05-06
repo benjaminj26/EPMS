@@ -64,7 +64,7 @@ exports.getUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
-    console.log(user.role);
+    // console.log(user.role);
 
     res.status(200).json({
       _id: user._id,
