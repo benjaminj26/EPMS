@@ -6,6 +6,8 @@ import conferencePng from "../assets/icons/conference.png";
 import vendorImage from "../assets/vendorpics/vendor.jpg";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import weddinghall from "../assets/vendorpics/weddinghall.png";
+
 
 const LandingPageOne = () => {
   const navigate = useNavigate();
@@ -138,6 +140,41 @@ const LandingPageOne = () => {
           </div>
         </div>
       </section>
+
+      {/* Venue Section */}
+<section className="bg-purple-50 py-20">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="flex flex-col md:flex-row items-center gap-10">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex-1"
+      >
+        <img src={weddinghall} alt="Venue" className="rounded-2xl shadow-lg w-full object-cover max-h-64" />
+
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex-1"
+      >
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">List Your Venue</h2>
+        <p className="text-gray-700 text-lg mb-6">
+          Reach event organizers looking for the perfect space. Showcase your venue and grow your bookings easily.
+        </p>
+        <button
+          className="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-3 rounded-xl shadow-md transition"
+          onClick={() => navigate("/venueregistration")}
+        >
+          Register as Venue
+        </button>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* Call to Action Section */}
       <section className="bg-white py-16">
