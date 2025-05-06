@@ -46,4 +46,27 @@ router.get('/events', async (req, res) => {
   }
 });
 
+router.put('/profile', async (req, res) =>{
+  try {
+    const response = await axios.put(`${AUTH_SERVICE_URL}/api/auth/update`, req.body, {
+      headers: {
+        Authorization: req.headers.authorization
+      },
+      params: {
+        username: req.query.username
+      }
+    });
+
+    if (response.status === 200) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(response.status).json({ error: response.statusText });
+    }
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

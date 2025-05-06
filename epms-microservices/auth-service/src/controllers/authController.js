@@ -77,3 +77,21 @@ exports.getUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 }
+
+exports.updateUser = async (req, res) => {
+  try {
+    const username = req.query.username;
+
+    const user = await User.findOneAndUpdate(
+      { username },
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ message: err.message });
+  }
+};

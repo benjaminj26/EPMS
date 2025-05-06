@@ -10,7 +10,7 @@ const Profile = () => {
     name: '',
   });
   // const [clientId,setClientId]=useState('');
-console.log(localStorage);
+  console.log(localStorage);
 
   const [isEditing, setIsEditing] = useState(false); // Track editing state
   const [editDetails, setEditDetails] = useState(userDetails); // Track edited data
@@ -21,7 +21,7 @@ console.log(localStorage);
 
     if (storedUsername) {
       // Fetch user details from the backend
-      axios.get(`http://localhost:9598/user/getUser?username=${storedUsername}`,{
+      axios.get(`http://localhost:9598/user/getUser?username=${storedUsername}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -29,7 +29,7 @@ console.log(localStorage);
         .then(response => {
           if (response.data) {
 
-          // Store clientId in localStorage for future use
+            // Store clientId in localStorage for future use
             localStorage.setItem('clientId', response.data.id);
 
             setUserDetails({
@@ -65,7 +65,14 @@ console.log(localStorage);
 
   // Handle saving the updated details
   const handleSave = () => {
-    axios.put(`http://localhost:9598/user/profile/${localStorage.clientId}`, editDetails)
+    axios.put(`http://localhost:9598/user/profile`, editDetails, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+      },
+      params: {
+        username: localStorage.getItem('username')
+      }
+    })
       .then(response => {
         if (response.data) {
           alert('Profile updated successfully!');
