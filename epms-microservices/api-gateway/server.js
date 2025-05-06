@@ -18,7 +18,7 @@ app.use(cors());
 app.use('/auth', authRoutes);
 app.use('/event', auth, eventRoutes);
 app.use('/guests', auth, guestRoutes);
-app.use('/vendor', auth, vendorRoutes);
+app.use('/vendor', vendorRoutes);
 app.use('/user', auth, userRoutes);
 app.use('/venue', auth, venueRoutes);
 

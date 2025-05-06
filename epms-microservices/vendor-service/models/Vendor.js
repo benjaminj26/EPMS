@@ -25,10 +25,11 @@ const vendorSchema = new Schema({
     type: Number
   },
   bookedDates: [{
-    type: Date
+    type: Date,
+    default: []
   }],
   images: [{
-    type: String
+    type: [String]
   }],
   status: {
     type: String,

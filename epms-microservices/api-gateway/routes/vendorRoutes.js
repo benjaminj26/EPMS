@@ -3,12 +3,18 @@ const axios = require('axios');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 require('dotenv').config();
+const multer = require('multer');
+
+// Set up multer storage (e.g., memory or disk)
+const storage = multer.memoryStorage(); // Or use multer.diskStorage({...}) if saving to disk
+const upload = multer({ storage: storage });
 
 const VENDOR_SERVICE_URL = process.env.VENDOR_SERVICE_URL;
 
 // Add vendor
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', upload.array('images'), async (req, res) => {
   try {
+    // console.log(req.body);
     const response = await axios.post(`${VENDOR_SERVICE_URL}/api/vendors`, req.body, {
       headers: { Authorization: req.headers.authorization }
     });

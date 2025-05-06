@@ -42,41 +42,44 @@ const VendorRegistrationPage = () => {
     const formData = new FormData();
 
     for (const key in vendorDetails) {
-        if (Array.isArray(vendorDetails[key])) {
-            vendorDetails[key].forEach((file) => formData.append(key, file));
-        } else {
-            formData.append(key, vendorDetails[key]);
-        }
+      if (Array.isArray(vendorDetails[key])) {
+        vendorDetails[key].forEach((file) => formData.append(key, file));
+      } else {
+        formData.append(key, vendorDetails[key]);
+      }
     }
 
     try {
-        const response = await axios.post('http://localhost:9598/vendor/information', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
+      const response = await axios.post('http://localhost:9598/vendor', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      });
 
-        if (response.status === 200) {
-            alert('Vendor registered successfully');
-            setVendorDetails({
-                vendorName: '',
-                vendorEmail: '',
-                vendorPhone: '',
-                vendorLocation: '',
-                type: '',
-                rate: '',
-                provides: [],
-                images: [],
-            });
-            navigate('/');
-        } else {
-            alert('Failed to register vendor');
-        }
+      if (response.status === 200) {
+        alert('Vendor registered successfully');
+        setVendorDetails({
+          vendorName: '',
+          vendorEmail: '',
+          vendorPhone: '',
+          vendorLocation: '',
+          type: '',
+          rate: '',
+          provides: [],
+          images: [],
+        });
+        navigate('/');
+      } else {
+        alert('Failed to register vendor');
+      }
     } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while registering the vendor');
+      console.error('Error:', error);
+      alert('An error occurred while registering the vendor');
     }
-};
+  };
 
 
 
@@ -166,7 +169,7 @@ const VendorRegistrationPage = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="images" className="block text-sm font-medium text-gray-700">Upload Images</label>
                   <input
