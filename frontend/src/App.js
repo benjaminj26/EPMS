@@ -18,6 +18,8 @@ import AdminEventTable from './pages/AdminEventTable';
 import Tutorial from './pages/Tutorial';
 import PaymentPage from './pages/RazorPayment';
 import VendorDetailsPage from './pages/VendorDetailPage'
+import VenueRegistrationPage from './pages/VenueRegistration';
+
 const App = () => {
   return (
     <Router>
@@ -41,6 +43,7 @@ const App = () => {
         <Route path="/tutorials" element={<Tutorial/>}/>
         <Route path="/vendor/:vendorId" element={<VendorDetailsPage/>} />
         <Route path="payment" element={<PaymentPage/>} />
+        <Route path="/venueregistration" element={<VenueRegistrationPage />} />
 
       </Routes>
     </Router>
