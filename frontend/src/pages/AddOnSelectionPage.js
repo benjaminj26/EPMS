@@ -56,6 +56,7 @@ const AddOnSelectionPage = () => {
   };
 
   const handleNext = () => {
+    console.log('Selected Addons: ', selectedAddOns);
     navigate('/summary', { state: {eventDetails, selectedVenues, selectedAddOns, totalBudget} });
     console.log(eventDetails, selectedVenues, selectedAddOns, totalBudget);
   };

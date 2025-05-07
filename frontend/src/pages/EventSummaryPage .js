@@ -53,7 +53,7 @@ const EventSummaryPage = () => {
         date: eventDetails.eventDate ? new Date(eventDetails.eventDate).toISOString() : new Date().toISOString(),
         type: eventDetails.eventType || "General",
         userId: clientId,
-        vendorIds: selectedAddOns.map(addOn => addOn.vendorId),
+        vendorIds: selectedAddOns.map(addOn => addOn._id),
         venueId: venueId,
         guestList: eventDetails.guestList || [] // Ensure guestList is an array, even if empty
       };

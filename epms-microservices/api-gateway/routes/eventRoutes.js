@@ -18,9 +18,10 @@ router.get('/', async (req, res) => {
 
     if (response.status === 200) {
       const event = response.data;
+      console.log('Event:\n', event);
 
       const userId = event.userId;
-      console.log('User UUID: ', userId);
+      // console.log('User UUID: ', userId);
 
       const userResponse = await axios.get(`${AUTH_SERVICE_URL}/api/auth/getUserByUUID`, {
         headers: {
@@ -32,11 +33,12 @@ router.get('/', async (req, res) => {
       });
 
       const user = userResponse.data
-      console.log(user);
+      // console.log(user);
 
       const vendorIds = event.vendorIds;
+      console.log('Type of Vendor IDS:\n', vendorIds);
 
-      const vendorResponse = await axios.get(`${VENDOR_SERVICE_URL}/api/vendors/getVendorsByID`, {
+      const vendorResponse = vendorIds[0] === null ? null : await axios.get(`${VENDOR_SERVICE_URL}/api/vendors/getVendorsByID`, {
         headers: {
           Authorization: req.headers.authorization
         },
@@ -45,7 +47,9 @@ router.get('/', async (req, res) => {
         }
       });
 
-      const vendors = vendorResponse.data;
+      const vendors = vendorResponse === null ? null : vendorResponse.data;
+
+      console.log(vendors);
 
 
 
@@ -63,12 +67,12 @@ router.get('/', async (req, res) => {
         paymentStatus: event.paymentStatus,
         status: event.status,
         userId: event.userId,
-        vendorIds: event.vendorIds,
+        vendorIds: vendorIds,
         vendorList: vendors,
         venueId: event.venueId,
         venue: 'Local Hall',
         address: 'Pollachi',
-        budget: 0.0,
+        budget: 5000,
         orderId: 'asibdq87182',
         vendorMap: {
           'Key1': 'Val1',
@@ -91,12 +95,13 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    console.log(req.body.vendorIds);
     const response = await axios.post(`${EVENT_SERVICE_URL}/api/events`, req.body, {
       headers: {
         Authorization: req.headers.authorization
       }
     });
-    res.json(response.data);
+    res.status(200).json(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json({ message: error.message });
   }

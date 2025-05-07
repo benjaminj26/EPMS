@@ -95,10 +95,13 @@ exports.getVendorByChoice = async (req, res) => {
 exports.getVendorsByID = async (req, res) => {
   try {
     const vendorIds = req.query.vendorIds;
+    // console.log('Vendors IDS:\n', vendorsIds);
 
     const vendors = await Vendor.find({
       _id: { $in: vendorIds }
     });
+
+    console.log('Vendors:\n', vendors);
 
     res.status(200).json(vendors);
   } catch (err) {

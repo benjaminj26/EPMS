@@ -4,8 +4,9 @@ const Event = require('../models/Event');
 exports.createEvent = async (req, res) => {
   try {
     const event = await Event.create({ ...req.body, plannerId: req.user.id });
-    res.status(201).json(event);
+    res.status(200).json(event);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 };
