@@ -10,5 +10,6 @@ router.get('/event', authMiddleware, vendorController.getVendorsByEvent);
 router.put('/status', authMiddleware, vendorController.updateVendorStatus); // No auth: vendors can update status via secure link
 router.put('/approveVendor', authMiddleware, vendorController.approveVendor);
 router.get('/getVendorByChoice', authMiddleware, vendorController.getVendorByChoice);
+router.get('/getVendorsByID', authMiddleware, vendorController.getVendorsByID);
 
 module.exports = router;

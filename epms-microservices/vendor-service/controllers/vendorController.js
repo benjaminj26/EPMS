@@ -91,3 +91,19 @@ exports.getVendorByChoice = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getVendorsByID = async (req, res) => {
+  try {
+    const vendorIds = req.query.vendorIds;
+
+    const vendors = await Vendor.find({
+      _id: { $in: vendorIds }
+    });
+
+    res.status(200).json(vendors);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
+};

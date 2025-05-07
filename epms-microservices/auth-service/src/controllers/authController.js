@@ -64,7 +64,11 @@ exports.getUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
-    // console.log(user.role);
+    // console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Not Found' });
+    }
 
     res.status(200).json({
       _id: user._id,
@@ -74,6 +78,7 @@ exports.getUser = async (req, res) => {
       role: user.role
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 }
@@ -93,5 +98,21 @@ exports.updateUser = async (req, res) => {
     console.log(err);
 
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getUserByUUID = async (req, res) => {
+  try {
+    const uuid = req.query.uuid;
+
+    const user = await User.findOne({ _id: uuid });
+
+    // console.log(user);
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
   }
 };

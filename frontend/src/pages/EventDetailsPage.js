@@ -24,7 +24,7 @@ const EventDetailsPage = () => {
           },
           params: { eventId }
         });
-        console.log(response);
+        console.log(response.data);
         setEvent(response.data);
       } catch (error) {
         setError('Error fetching event details');
