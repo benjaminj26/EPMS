@@ -1,8 +1,9 @@
 import React from 'react';
 import { User, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
-  // Retrieve username from localStorage
+  const navigate = useNavigate(); // Hook to navigate programmatically
   const username = localStorage.getItem('username') || 'UserName';
 
   const handleLogout = () => {
@@ -15,12 +16,19 @@ function NavBar() {
     window.location.href = '/login';
   };
 
+  const handleHomeClick = () => {
+    navigate('/'); // This navigates to the home page
+  };
+
   return (
     <nav className="bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <h1 className="text-2xl font-bold text-indigo-600 font-poppins">Eventio</h1>
+            {/* Make "Eventio" text clickable */}
+            <button onClick={handleHomeClick} className="text-2xl font-bold text-indigo-600 font-poppins">
+              Eventio
+            </button>
           </div>
           <div className="flex items-center">
             <div className="flex-shrink-0">
