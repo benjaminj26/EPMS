@@ -19,6 +19,10 @@ import Tutorial from './pages/Tutorial';
 import PaymentPage from './pages/RazorPayment';
 import VendorDetailsPage from './pages/VendorDetailPage'
 import VenueRegistrationPage from './pages/VenueRegistration';
+import ForgotPassword from './pages/ForgotPassword';  // Import the ForgotPassword page
+import ResetPassword from './pages/ResetPassword';
+
+
 
 const App = () => {
   return (
@@ -44,6 +48,9 @@ const App = () => {
         <Route path="/vendor/:vendorId" element={<VendorDetailsPage/>} />
         <Route path="payment" element={<PaymentPage/>} />
         <Route path="/venueregistration" element={<VenueRegistrationPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+ 
 
       </Routes>
     </Router>
