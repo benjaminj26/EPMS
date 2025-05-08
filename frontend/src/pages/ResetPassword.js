@@ -17,14 +17,22 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5001/api/auth/user/reset-password/${token}`, {
+      console.log('Token: ', token);
+      const response = await axios.post(`http://localhost:9598/auth/reset-password/${token}`, {
         password: newPassword,
       });
 
-      alert('Password reset successful!');
-      navigate('/login');
+      if (response.status === 200) {
+        alert('Password reset successful!');
+        navigate('/login');
+      } else {
+        alert('Password Reset Failed');
+
+        console.log('Response Status Code: ', response.status);
+        console.log('Response message: ', response.statusText);
+      }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       alert('Reset link expired or invalid.');
     }
   };

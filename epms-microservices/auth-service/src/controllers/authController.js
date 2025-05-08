@@ -164,7 +164,7 @@ exports.forgotPassword = async (req, res) => {
 // In your controllers/authController.js
 
 exports.resetPassword = async (req, res) => {
-  const { token } = req.params; // Token from the URL
+  const token = req.params.token; // Token from the URL
   const { password } = req.body; // New password from the frontend
 
   try {
@@ -188,7 +188,7 @@ exports.resetPassword = async (req, res) => {
     // Send success response
     res.status(200).json({ message: 'Password reset successfully' });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(400).json({ message: 'Invalid or expired token' });
   }
 };

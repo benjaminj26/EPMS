@@ -11,10 +11,14 @@ const ForgotPassword = () => {
 
     try {
       // API call to send password reset link
-    //   const response = await axios.post('http://localhost:9598/user/forgot-password', { email });
-    const response=await axios.post("http://localhost:5001/api/auth/user/forgot-password", { email });
+      //   const response = await axios.post('http://localhost:9598/user/forgot-password', { email });
+      const response = await axios.post("http://localhost:9598/auth/user/forgot-password", { email });
 
       setMessage('Password reset link has been sent to your email.');
+
+      console.log('Response status code: ', response.status);
+
+      console.log('Response status text: ', response.statusText);
     } catch (error) {
       setMessage('Error sending password reset link. Please try again.');
     }

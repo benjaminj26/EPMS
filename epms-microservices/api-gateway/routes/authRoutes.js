@@ -24,4 +24,34 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/reset-password/:token', async (req, res) => {
+  try {
+    const token = req.params.token;
+
+    const response = await axios.post(`${AUTH_SERVICE_URL}/api/auth/reset-password/${token}`, {
+      password: req.body.password
+    });
+
+    res.status(response.status).json({ message: response.statusText });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/user/forgot-password', async (req, res) => {
+  try {
+    const response = await axios.post(`${AUTH_SERVICE_URL}/api/auth/user/forgot-password`, {
+      email: req.body.email
+    });
+
+    res.status(response.status).json({ message: response.statusText });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
