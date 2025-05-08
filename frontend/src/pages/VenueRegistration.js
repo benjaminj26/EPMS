@@ -8,8 +8,9 @@ const VenueRegistrationPage = () => {
     venueEmail: '',
     venuePhone: '',
     venueLocation: '',
+    address: '',
     capacity: '',
-    price: '',
+    rent: '',
     images: [],
   });
 
@@ -33,7 +34,7 @@ const VenueRegistrationPage = () => {
 
     for (const key in venueDetails) {
       if (Array.isArray(venueDetails[key])) {
-        venueDetails[key].forEach((file) => formData.append(key, file));
+        venueDetails[key].forEach((file) => formData.append('images', file));
       } else {
         formData.append(key, venueDetails[key]);
       }
@@ -53,8 +54,9 @@ const VenueRegistrationPage = () => {
           venueEmail: '',
           venuePhone: '',
           venueLocation: '',
+          address: '',
           capacity: '',
-          price: '',
+          rent: '',
           images: [],
         });
         navigate('/');
@@ -124,6 +126,18 @@ const VenueRegistrationPage = () => {
                   />
                 </div>
                 <div>
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={venueDetails.address}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    required
+                  />
+                </div>
+                <div>
                   <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">Capacity</label>
                   <input
                     type="number"
@@ -136,12 +150,12 @@ const VenueRegistrationPage = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price Per Day</label>
+                  <label htmlFor="rent" className="block text-sm font-medium text-gray-700">Rent</label>
                   <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={venueDetails.price}
+                    id="rent"
+                    name="rent"
+                    value={venueDetails.rent}
                     onChange={handleInputChange}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                     required
