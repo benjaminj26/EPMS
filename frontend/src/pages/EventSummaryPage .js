@@ -169,7 +169,7 @@ const EventSummaryPage = () => {
                   {selectedVenues.length > 0 ? (
                     selectedVenues.map((venue) => (
                       <li key={venue.venueId} className="text-base md:text-xl text-gray-900">
-                        {venue.name} - ₹ {venue.rent}
+                        {venue.venueName} - ₹ {venue.rent}
                       </li>
                     ))
                   ) : (
@@ -182,7 +182,7 @@ const EventSummaryPage = () => {
                 <ul className="list-disc list-inside space-y-2">
                   {selectedAddOns.length > 0 ? (
                     selectedAddOns.map((addOn) => (
-                      <li key={addOn.vendorId} className="text-base md:text-xl text-gray-900">
+                      <li key={addOn._id} className="text-base md:text-xl text-gray-900">
                         {addOn.vendorName} - ₹ {addOn.rate}
                       </li>
                     ))

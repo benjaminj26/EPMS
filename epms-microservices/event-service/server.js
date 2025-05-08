@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.error(err));
 
 app.use('/api/events', auth, eventRoutes);
-app.use('/api/venue', auth, venueRoutes);
+app.use('/api/venue', venueRoutes);
 app.use('/api/employee', auth, employeeRoutes);
 
 app.get('/', (req, res) => res.send('Event Service Running'));

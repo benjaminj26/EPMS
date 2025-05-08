@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 const EventDTO = require('../dto/Event.DTO');
+const qs = require('qs');
 require('dotenv').config();
 
 const EVENT_SERVICE_URL = process.env.EVENT_SERVICE_URL;
@@ -38,20 +39,21 @@ router.get('/', async (req, res) => {
       const vendorIds = event.vendorIds;
       console.log('Type of Vendor IDS:\n', vendorIds);
 
+      // const temp = 
+
       const vendorResponse = vendorIds[0] === null ? null : await axios.get(`${VENDOR_SERVICE_URL}/api/vendors/getVendorsByID`, {
         headers: {
           Authorization: req.headers.authorization
         },
-        params: {
-          vendorIds
-        }
+        params: { vendorIds: vendorIds },
+        paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' })
       });
 
       const vendors = vendorResponse === null ? null : vendorResponse.data;
 
-      console.log(vendors);
+      // console.log("Vendors:\n", vendors);
 
-
+      const budget = vendors.reduce((accumulator, currentValue) => accumulator + currentValue.rate, 0);
 
       let eventDTO = new EventDTO({
         id: event._id,
@@ -72,7 +74,7 @@ router.get('/', async (req, res) => {
         venueId: event.venueId,
         venue: 'Local Hall',
         address: 'Pollachi',
-        budget: 5000,
+        budget: budget,
         orderId: 'asibdq87182',
         vendorMap: {
           'Key1': 'Val1',

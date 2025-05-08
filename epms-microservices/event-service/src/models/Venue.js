@@ -6,7 +6,15 @@ const venueSchema = new Schema({
     type: String,
     required: true
   },
-  location: {
+  venueLocation: {
+    type: String,
+    required: true
+  },
+  venueEmail: {
+    type: String,
+    required: true
+  },
+  venuePhone: {
     type: String,
     required: true
   },
@@ -26,7 +34,10 @@ const venueSchema = new Schema({
   address: {
     type: String,
     required: true
-  }
+  },
+  images: [{
+    type: [String]
+  }]
 }, {
   timestamps: true
 });

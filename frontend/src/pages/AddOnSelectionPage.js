@@ -44,14 +44,16 @@ const AddOnSelectionPage = () => {
   }, [date, location]);
 
   const handleSelectAddOn = (addOn) => {
-    if (!selectedAddOns.find(a => a.vendorId === addOn.vendorId)) {
+    if (!selectedAddOns.find(a => a._id === addOn._id)) {
       setSelectedAddOns([...selectedAddOns, addOn]);
+      console.log('Selected Addons:', selectedAddOns);
+      // setSelectedAddOns(temp => temp.push(addOn));
       setTotalBudget(totalBudget + addOn.rate);
     }
   };
 
   const handleRemoveAddOn = (addOn) => {
-    setSelectedAddOns(selectedAddOns.filter(a => a.vendorId !== addOn.vendorId));
+    setSelectedAddOns(selectedAddOns.filter(a => a._id !== addOn._id));
     setTotalBudget(totalBudget - addOn.rate);
   };
 
@@ -91,7 +93,7 @@ const AddOnSelectionPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-96 overflow-y-auto">
                 {vendors.length > 0 ? (
                   vendors.map(addOn => (
-                    <AddOnCard key={addOn.vendorId} addOn={addOn} onSelect={handleSelectAddOn} />
+                    <AddOnCard key={addOn._id} addOn={addOn} onSelect={handleSelectAddOn} />
                   ))
                 ) : (
                   <p>No add-ons available.</p>
@@ -104,14 +106,14 @@ const AddOnSelectionPage = () => {
               <div className="space-y-4">
                 <h3 className="text-xl font-semibold">Venues</h3>
                 {selectedVenues.map(venue => (
-                  <div key={venue.id} className="flex justify-between items-center">
+                  <div key={venue._id} className="flex justify-between items-center">
                     <span>{venue.name}</span>
                     <span>${venue.rent}</span>
                   </div>
                 ))}
                 <h3 className="text-xl font-semibold mt-6">Add-Ons</h3>
                 {selectedAddOns.map(addOn => (
-                  <div key={addOn.vendorId} className="flex justify-between items-center">
+                  <div key={addOn._id} className="flex justify-between items-center">
                     <span>{addOn.vendorName}</span>
                     <div>
                       <span className="mr-4">${addOn.rate}</span>
