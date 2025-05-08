@@ -1,22 +1,23 @@
-// ForgotPassword.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage('');
 
     try {
-      // API call to send password reset link
-    //   const response = await axios.post('http://localhost:9598/user/forgot-password', { email });
-    const response=await axios.post("http://localhost:5001/api/auth/user/forgot-password", { email });
-
-      setMessage('Password reset link has been sent to your email.');
+      await axios.post('http://localhost:5001/api/auth/user/forgot-password', { email });
+      setMessage('✅ Password reset link has been sent to your email.');
     } catch (error) {
-      setMessage('Error sending password reset link. Please try again.');
+      setMessage('❌ Error sending password reset link. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,8 +36,12 @@ const ForgotPassword = () => {
             required
           />
         </div>
-        <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-          Submit
+        <button
+          type="submit"
+          className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading ? 'Sending...' : 'Submit'}
         </button>
       </form>
       {message && <p className="mt-4 text-sm text-center">{message}</p>}
