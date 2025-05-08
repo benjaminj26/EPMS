@@ -37,8 +37,7 @@ exports.updateEvent = async (req, res) => {
   try {
     const event = await Event.findOneAndUpdate(
       { _id: req.params.id, plannerId: req.user.id },
-      req.body,
-      { new: true }
+      req.body
     );
     if (!event) return res.status(404).json({ message: 'Event not found' });
     res.json(event);

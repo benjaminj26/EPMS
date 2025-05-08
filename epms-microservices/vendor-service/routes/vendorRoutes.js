@@ -11,5 +11,6 @@ router.put('/status', authMiddleware, vendorController.updateVendorStatus); // N
 router.put('/approveVendor', authMiddleware, vendorController.approveVendor);
 router.get('/getVendorByChoice', authMiddleware, vendorController.getVendorByChoice);
 router.get('/getVendorsByID', authMiddleware, vendorController.getVendorsByID);
+router.put('/', authMiddleware, vendorController.updateVendors);
 
 module.exports = router;

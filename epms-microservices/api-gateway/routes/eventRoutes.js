@@ -98,7 +98,7 @@ router.get('/', async (req, res) => {
         },
         rate: venue.rent,
         email: venue.venueEmail,
-        location: venue.location
+        location: venue.venueLocation
       });
       res.status(200).json(eventDTO);
     } else {
@@ -113,12 +113,37 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    console.log(req.body.vendorIds);
+    console.log(req.body.venueId);
+    const date = req.body.date;
+
     const response = await axios.post(`${EVENT_SERVICE_URL}/api/events`, req.body, {
       headers: {
         Authorization: req.headers.authorization
       }
     });
+    
+    const venueResponse = await axios.put(`${VENUE_SERVICE_URL}/api/venue/updateDate`, 
+      { date },
+      { 
+        headers: { Authorization: req.headers.authorization },
+        params: { venueId: req.body.venueId }
+      }
+    );
+
+    console.log('Venue Response: ', venueResponse.data);
+
+    const vendorResponse = await axios.put(`${VENDOR_SERVICE_URL}/api/vendors`,
+      {
+        vendorIds: req.body.vendorIds,
+        date: req.body.date
+      },
+      {
+        headers: { Authorization: req.headers.authorization }
+      }
+    );
+
+    console.log('Vendor Response: ', vendorResponse.data);
+    
     res.status(200).json(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json({ message: error.message });

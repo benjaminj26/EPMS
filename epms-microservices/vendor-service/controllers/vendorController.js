@@ -26,8 +26,7 @@ exports.updateVendorStatus = async (req, res) => {
   try {
     const vendor = await Vendor.findByIdAndUpdate(
       req.query.id,
-      { status: req.body.status },
-      { new: true }
+      { status: req.body.status }
     );
     res.json(vendor);
   } catch (err) {
@@ -102,6 +101,24 @@ exports.getVendorsByID = async (req, res) => {
     });
 
     console.log('Vendors:\n', vendors);
+
+    res.status(200).json(vendors);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateVendors = async (req, res) => {
+  try {
+    const vendorIds = req.body.vendorIds;
+    const date = req.body.date;
+
+    const vendors = await Vendor.updateMany(
+      { _id: { $in: vendorIds } },
+      { $push: { bookedDates: date } }
+    );
 
     res.status(200).json(vendors);
   } catch (err) {

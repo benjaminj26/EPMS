@@ -70,7 +70,7 @@ exports.getByLocation = async (req, res) => {
         const location = req.query.location;
 
         const availableVenues = await Venue.find({
-            location: location,
+            venueLocation: location,
             bookedDates: { $ne: date }
         });
 
@@ -80,4 +80,19 @@ exports.getByLocation = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: err.message });
     }
+};
+
+exports.addBookingDate = async (req, res) => {
+  try {
+    const venue = await Venue.findByIdAndUpdate(
+      { _id: req.query.venueId },
+      { $push: { bookedDates: req.body.date } }
+    );
+
+    res.status(200).json(venue);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
 };
