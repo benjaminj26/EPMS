@@ -45,7 +45,7 @@ const EventSummaryPage = () => {
   const handleSubmit = async () => {
     try {
       // Extract venueId from the first item in selectedVenues array
-      const venueId = selectedVenues.length > 0 ? selectedVenues[0].venueId : null;
+      const venueId = selectedVenues.length > 0 ? selectedVenues[0]._id : null;
       
       // Ensure all necessary data is included in the payload
       const eventPayload = {

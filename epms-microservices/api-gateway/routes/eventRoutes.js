@@ -8,6 +8,7 @@ require('dotenv').config();
 const EVENT_SERVICE_URL = process.env.EVENT_SERVICE_URL;
 const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL;
 const VENDOR_SERVICE_URL = process.env.VENDOR_SERVICE_URL;
+const VENUE_SERVICE_URL = process.env.VENUE_SERVICE_URL;
 
 router.get('/', async (req, res) => {
   try {
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
 
     if (response.status === 200) {
       const event = response.data;
-      console.log('Event:\n', event);
+      // console.log('Event:\n', event);
 
       const userId = event.userId;
       // console.log('User UUID: ', userId);
@@ -37,7 +38,7 @@ router.get('/', async (req, res) => {
       // console.log(user);
 
       const vendorIds = event.vendorIds;
-      console.log('Type of Vendor IDS:\n', vendorIds);
+      // console.log('Type of Vendor IDS:\n', vendorIds);
 
       // const temp = 
 
@@ -53,7 +54,22 @@ router.get('/', async (req, res) => {
 
       // console.log("Vendors:\n", vendors);
 
-      const budget = vendors.reduce((accumulator, currentValue) => accumulator + currentValue.rate, 0);
+      const venueId = event.venueId;
+
+      const venueResponse = await axios.get(`${VENUE_SERVICE_URL}/api/venue/${venueId}`, {
+        headers: {
+          Authorization: req.headers.authorization
+        }
+      });
+
+      const venue = venueResponse === null ? null : venueResponse.data;
+
+      // console.log('Venue: ', venue);
+
+      const budget = vendors.reduce((accumulator, currentValue) => accumulator + currentValue.rate, 0) + venue.rent;
+
+      // console.log('Rent: ', venue.rent);
+      // budget += venue.rent;
 
       let eventDTO = new EventDTO({
         id: event._id,
@@ -72,17 +88,17 @@ router.get('/', async (req, res) => {
         vendorIds: vendorIds,
         vendorList: vendors,
         venueId: event.venueId,
-        venue: 'Local Hall',
-        address: 'Pollachi',
+        venue: venue.venueName,
+        address: venue.address,
         budget: budget,
         orderId: 'asibdq87182',
         vendorMap: {
           'Key1': 'Val1',
           'Key2': 'Val2'
         },
-        rate: 0.0,
-        email: 'someone@example.com',
-        location: 'Pollachi'
+        rate: venue.rent,
+        email: venue.venueEmail,
+        location: venue.location
       });
       res.status(200).json(eventDTO);
     } else {

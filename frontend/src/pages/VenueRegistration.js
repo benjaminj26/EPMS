@@ -47,7 +47,7 @@ const VenueRegistrationPage = () => {
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert('Venue registered successfully');
         setVenueDetails({
           venueName: '',
