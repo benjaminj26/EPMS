@@ -39,7 +39,7 @@ const EventDetailsPage = () => {
   // console.log('Fetched event details',event);
 
   const handleGenerateGuestLink = () => {
-    const formLink = "https://example.com/form"; // Replace this with the actual form link
+    const formLink = "https://tally.so/r/wkpJ21"; // Replace this with the actual form link
   
     navigator.clipboard.writeText(formLink).then(() => {
       alert('Form link copied to clipboard!');
