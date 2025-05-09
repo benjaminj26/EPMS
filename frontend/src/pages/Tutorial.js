@@ -79,28 +79,28 @@ const Tutorial = () => {
       </header>
 
       <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10 font-poppins">Need Ideas?</h1>
+      
       <form
-  onSubmit={(e) => {
-    e.preventDefault(); // Prevent page reload
-    searchVideos();     // Trigger search
-  }}
-  className="flex justify-center mb-10"
->
-  <input
-    type="text"
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-    placeholder={`Try: ${placeholder}`}
-    className="p-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md"
-  />
-  <button
-    type="submit"
-    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-  >
-    <Search size={20} />
-  </button>
-</form>
-
+        onSubmit={(e) => {
+          e.preventDefault();
+          searchVideos();
+        }}
+        className="flex justify-center mb-10"
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder={`Try: ${placeholder}`}
+          className="p-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-md"
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <Search size={20} />
+        </button>
+      </form>
 
       {loading && <p className="text-center text-blue-600 font-medium">Loading...</p>}
 
@@ -108,7 +108,8 @@ const Tutorial = () => {
         {videos.map((video) => (
           <div
             key={video.id.videoId}
-            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden relative group"
+            onClick={() => handleVideoClick(video.id.videoId)}
+            className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden relative group"
           >
             <img
               src={video.snippet.thumbnails.medium.url}
@@ -127,12 +128,15 @@ const Tutorial = () => {
               <p className="text-sm text-gray-600 line-clamp-3 mb-4">
                 {video.snippet.description}
               </p>
-              <button
-                onClick={() => handleVideoClick(video.id.videoId)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition"
+              <a
+                href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()} // prevent card click from firing
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition text-center"
               >
                 Watch Video
-              </button>
+              </a>
             </div>
           </div>
         ))}
