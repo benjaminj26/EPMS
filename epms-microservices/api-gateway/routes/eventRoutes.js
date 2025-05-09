@@ -168,4 +168,23 @@ router.get('/eventDate', async (req, res) => {
   }
 });
 
+router.put('/paymentUpdate', async (req, res) => {
+  try {
+    const response = await axios.put(`${EVENT_SERVICE_URL}/api/events/${req.query.eventId}`,
+      { status: req.body.status },
+      { headers: { authorization: req.headers.authorization } }
+    );
+
+    if (response.status === 200) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(response.status).json({ message: response.statusText });
+    }
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

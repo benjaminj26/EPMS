@@ -72,7 +72,13 @@ const RazorpayPayment = () => {
         try {
           const { eventId, budget } = location.state || {};
           console.log('try loop xd eventId', eventId);
-          await axios.put(`http://localhost:9598/api/event/paymetUpdate/${eventId}`);
+          await axios.put(`http://localhost:9598/event/paymentUpdate`,
+          { status: 'PAID' },
+          { 
+            headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` },
+            params: { eventId }
+          }
+        );
           console.log('Payment status updated successfully');
           navigate(`/details/${eventId}`);
         } catch (error) {
