@@ -79,7 +79,7 @@ const Tutorial = () => {
       </header>
 
       <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10 font-poppins">Need Ideas?</h1>
-      
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -104,17 +104,17 @@ const Tutorial = () => {
 
       {loading && <p className="text-center text-blue-600 font-medium">Loading...</p>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {videos.map((video) => (
           <div
             key={video.id.videoId}
             onClick={() => handleVideoClick(video.id.videoId)}
-            className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden relative group"
+            className="cursor-pointer bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden relative group max-w-sm mx-auto"
           >
             <img
               src={video.snippet.thumbnails.medium.url}
               alt={video.snippet.title}
-              className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition duration-300">
               <svg className="w-10 h-10 text-white opacity-0 group-hover:opacity-100" fill="currentColor" viewBox="0 0 24 24">
@@ -122,7 +122,7 @@ const Tutorial = () => {
               </svg>
             </div>
             <div className="p-4">
-              <h2 className="text-lg font-semibold mb-1 text-gray-800 line-clamp-2">
+              <h2 className="text-md font-semibold mb-2 text-gray-800 line-clamp-2">
                 {video.snippet.title}
               </h2>
               <p className="text-sm text-gray-600 line-clamp-3 mb-4">
@@ -132,7 +132,7 @@ const Tutorial = () => {
                 href={`https://www.youtube.com/watch?v=${video.id.videoId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()} // prevent card click from firing
+                onClick={(e) => e.stopPropagation()}
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition text-center"
               >
                 Watch Video
