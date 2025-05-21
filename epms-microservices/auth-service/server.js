@@ -9,6 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+console.log(`Mongo URI: ${process.env.MONGO_URI}`);
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected to auth-service'))
   .catch((err) => console.error(err));

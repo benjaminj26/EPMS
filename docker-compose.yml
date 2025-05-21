@@ -1,0 +1,195 @@
+# services:
+#   mongo:
+#     image: mongo:6.0
+#     container_name: mongo
+#     ports:
+#       - "28017:27017"
+#     networks:
+#       - epms-net
+#     volumes:
+#       - mongo-data:/data/db
+
+#   auth-service:
+#     build: ./epms-microservices/auth-service
+#     container_name: auth-service
+#     ports:
+#       - "5001:5001"
+    
+#     environment:
+#       - PORT=5001
+#       - MONGO_URI=mongodb://mongo:27017/epms-auth
+#       - JWT_SECRET=supersecretjwtkey
+#       - EMAIL_USER=neymessi319@gmail.com
+#       - EMAIL_PASS=mqnm pocg wlfy ighl
+#     networks:
+#       - epms-net
+
+#   event-service:
+#     build: ./epms-microservices/event-service
+#     container_name: event-service
+#     ports:
+#       - "5002:5002"
+#     environment:
+#       - PORT=5002
+#       - MONGO_URI=mongodb://mongo:27017/epms-event
+#       - JWT_SECRET=supersecretjwtkey
+#     networks:
+#       - epms-net
+
+#   guest-service:
+#     build: ./epms-microservices/guest-service
+#     container_name: guest-service
+#     ports:
+#       - "5003:5003"
+#     environment:
+#       - PORT=5003
+#       - MONGO_URI=mongodb://mongo:27017/epms-guests
+#       - JWT_SECRET=supersecretjwtkey
+#     networks:
+#       - epms-net
+
+#   vendor-service:
+#     build: ./epms-microservices/vendor-service
+#     container_name: vendor-service
+#     ports:
+#       - "5004:5004"
+#     environment:
+#       - PORT=5004
+#       - MONGO_URI=mongodb://mongo:27017/epms-vendors
+#       - JWT_SECRET=supersecretjwtkey
+#     networks:
+#       - epms-net
+
+#   api-gateway:
+#     build: ./epms-microservices/api-gateway
+#     container_name: api-gateway
+#     ports:
+#       - "9598:9598"
+#     depends_on:
+#       - mongo
+#       - auth-service
+#       - event-service
+#       - guest-service
+#       - vendor-service
+#     environment:
+#       - PORT=9598
+#       - AUTH_SERVICE_URL=http://auth-service:5001
+#       - EVENT_SERVICE_URL=http://event-service:5002
+#       - VENUE_SERVICE_URL=http://event-service:5002
+#       - GUEST_SERVICE_URL=http://guest-service:5003
+#       - VENDOR_SERVICE_URL=http://vendor-service:5004
+#       - JWT_SECRET=supersecretjwtkey
+#     networks:
+#       - epms-net
+
+#   frontend:
+#     build: ./frontend
+#     container_name: frontend
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - WDS_SOCKET_PORT=0
+#       - REACT_APP_API_BASE_URL=http://api-gateway:9598
+#     volumes:
+#       # - ./epms-frontend:/app
+#       - /app/node_modules
+#     depends_on:
+#       - api-gateway
+#     networks:
+#       - epms-net
+
+# volumes:
+#   mongo-data:
+
+# networks:
+#   epms-net:
+#     driver: bridge
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    ports:
+      - "28017:27017"
+    networks:
+      - epms-net
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    build: ./epms-microservices/auth-service
+    container_name: auth-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./epms-microservices/auth-service/.env
+    networks:
+      - epms-net
+
+  event-service:
+    build: ./epms-microservices/event-service
+    container_name: event-service
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./epms-microservices/event-service/.env
+    networks:
+      - epms-net
+
+  guest-service:
+    build: ./epms-microservices/guest-service
+    container_name: guest-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./epms-microservices/guest-service/.env
+    networks:
+      - epms-net
+
+  vendor-service:
+    build: ./epms-microservices/vendor-service
+    container_name: vendor-service
+    ports:
+      - "5004:5004"
+    env_file:
+      - ./epms-microservices/vendor-service/.env
+    networks:
+      - epms-net
+
+  api-gateway:
+    build: ./epms-microservices/api-gateway
+    container_name: api-gateway
+    ports:
+      - "9598:9598"
+    depends_on:
+      - mongo
+      - auth-service
+      - event-service
+      - guest-service
+      - vendor-service
+    env_file:
+      - ./epms-microservices/api-gateway/.env
+    networks:
+      - epms-net
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    # env_file:
+    #   - ./frontend/.env
+    volumes:
+      # - ./epms-frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api-gateway
+    networks:
+      - epms-net
+
+volumes:
+  mongo-data:
+
+networks:
+  epms-net:
+    driver: bridge
